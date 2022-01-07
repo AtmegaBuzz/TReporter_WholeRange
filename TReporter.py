@@ -8,7 +8,7 @@ import gspread
 import config
 from time import sleep
 
-# url = config.spreadsheet_url
+
 gc = gspread.service_account(filename=config.spread_user_cred_json_file_addr)
 gsheet = gc.open_by_url(config.fetch_spreadsheet_url)
 worksheet = gsheet.worksheets()[0]

@@ -4,13 +4,13 @@ from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.functions.messages import GetMessagesRequest
 from telethon.tl.types import PeerChat
 from telethon.sessions import StringSession
-from webserver import keep_alive
+# from webserver import keep_alive
 
 import gspread
 import config
 from time import sleep
 
-keep_alive()
+# keep_alive()
 # url = config.spreadsheet_url
 gc = gspread.service_account(filename=config.spread_user_cred_json_file_addr)
 gsheet = gc.open_by_url(config.fetch_spreadsheet_url)

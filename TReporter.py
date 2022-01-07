@@ -4,16 +4,19 @@ from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.tl.functions.messages import GetMessagesRequest
 from telethon.tl.types import PeerChat
 from telethon.sessions import StringSession
+from webserver import keep_alive
+
 import gspread
 import config
 from time import sleep
 
-
+keep_alive()
+# url = config.spreadsheet_url
 gc = gspread.service_account(filename=config.spread_user_cred_json_file_addr)
 gsheet = gc.open_by_url(config.fetch_spreadsheet_url)
 worksheet = gsheet.worksheets()[0]
-session_str = "1BVtsOLABu3Fs9YU26xwZFDXJbPkAY43kYuxU2cLNpVF9K1ZQIHbvo-oWFstTcVb6MQJeJhu0LBP_WPgdHJoUZQGUOX5wpt13nRlpxqOFBp2lnubbenDJb5YKj_RoPlsDB9jB--SaCIvUr2j7QcUAU2XCov28koOXAqK0mZGvOA0owBnD3FCcTC2hwfJnkT907nxpSAikppZPJo_1pjPS2iacq_ij_5ANvDBgiFozy1LUsS30yndx42Empt-Qz6M64l5sKQnkzg4g_7THHije4HNnN-LpNZSSqOsPSQy3CyBhfr8pbloxJGBYaXnkr6DGWE6oCqjDLqwjFOzK_4mrFdtuVanWQUo="
 
+session_str = "1BVtsOLABu3Fs9YU26xwZFDXJbPkAY43kYuxU2cLNpVF9K1ZQIHbvo-oWFstTcVb6MQJeJhu0LBP_WPgdHJoUZQGUOX5wpt13nRlpxqOFBp2lnubbenDJb5YKj_RoPlsDB9jB--SaCIvUr2j7QcUAU2XCov28koOXAqK0mZGvOA0owBnD3FCcTC2hwfJnkT907nxpSAikppZPJo_1pjPS2iacq_ij_5ANvDBgiFozy1LUsS30yndx42Empt-Qz6M64l5sKQnkzg4g_7THHije4HNnN-LpNZSSqOsPSQy3CyBhfr8pbloxJGBYaXnkr6DGWE6oCqjDLqwjFOzK_4mrFdtuVanWQUo="
 
 client = TelegramClient(StringSession(session_str),config.api_id,config.api_hash)
 
@@ -73,11 +76,11 @@ def get_links(url):
     
 
 async def main():
-
+    from config import starting_row
     starting_links,ending_links,out_worksheet = get_links(config.fetch_spreadsheet_url)
  
     
-    for i in range(len(starting_links)):
+    for i in range(starting_row,len(starting_links)):
         try:
             await t_scrapper(starting_links[i], ending_links[i],out_worksheet)
         except Exception as e:
